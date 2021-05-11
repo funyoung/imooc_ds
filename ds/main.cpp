@@ -39,7 +39,8 @@ int main(int argc, const char * argv[]) {
     //int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
     int n = 10000;
     int *arr = SortTestHelper::generateRandomArray(n, 1, 9999);
-    selectionSortAndPrint(arr, n);
+    //selectionSortAndPrint(arr, n);
+    SortTestHelper::testSort("Selection Sort: ", selectionSort, arr, n);
     
     float b[] = {5.4, 6.8, 3.2, 2.1, 1.0};
     selectionSortAndPrint(b, 5);

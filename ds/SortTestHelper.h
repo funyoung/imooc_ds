@@ -30,6 +30,26 @@ int * generateRandomArray(int n, int low, int high) {
     }
     return arr;
 }
+
+template <typename T>
+bool isAsscend(T arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < arr[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename T>
+void testSort(string sortName, void(*sort)(T[], int), T arr[], int n) {
+    clock_t start = clock();
+    sort(arr, n);
+    clock_t end = clock();
+    
+    assert(isAsscend(arr, n));
+    cout << sortName << " : " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+}
 }
 
 #endif /* SortTestHelper_h */
