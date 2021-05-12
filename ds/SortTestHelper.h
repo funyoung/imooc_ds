@@ -42,6 +42,21 @@ bool isAsscend(T arr[], int n) {
 }
 
 template <typename T>
+bool arrayEquals(T src[], T dst[], int n) {
+    if (src == dst) {
+        return true;
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (dst[i] != src[i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+template <typename T>
 void testSort(string sortName, void(*sort)(T[], int), T arr[], int n) {
     clock_t start = clock();
     sort(arr, n);
@@ -50,6 +65,20 @@ void testSort(string sortName, void(*sort)(T[], int), T arr[], int n) {
     assert(isAsscend(arr, n));
     cout << sortName << " : " << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
 }
+
+int * copyArray(int src[], int n) {
+    assert(src);
+    assert(n >= 0);
+    
+    int *dst = new int[n];
+    memcpy(dst, src, n * sizeof(int));
+    
+    assert(dst != src);
+    assert(arrayEquals(src, dst, n));
+    
+    return dst;
+}
+
 }
 
 #endif /* SortTestHelper_h */
