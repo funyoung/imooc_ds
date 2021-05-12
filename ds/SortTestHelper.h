@@ -22,12 +22,35 @@ void printArray(T a[], int n) {
     cout << endl;
 }
 
+/**
+ *随机生成n个元素的数组，数组元素取值是[low, high]之间的随机值
+ */
 int * generateRandomArray(int n, int low, int high) {
     assert(low <= high);
     int * arr = new int[n];
+    srand(time(NULL));
     for (int i = 0; i < n; i++) {
         arr[i] = rand() % (high - low + 1) + low;
     }
+    return arr;
+}
+
+/**
+ *随机生成近似有序的数组。先生成含有n个元素的有序数组，取值从从0到n-1。然后随机交换某两个索引的元素swapTimes次
+ */
+int * generateNearlyOrderArray(int n, int swapTimes) {
+    int *arr = new int[n];
+    for (int i = 0; i < n; i++) {
+        arr[i] = i;
+    }
+    
+    srand(time(NULL));
+    for (int i = 0; i < swapTimes; i++) {
+        int l = rand() % n;
+        int r = rand() % n;
+        swap(arr[l], arr[r]);
+    }
+    
     return arr;
 }
 
