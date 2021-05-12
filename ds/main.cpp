@@ -14,26 +14,38 @@
 #include "SelectionSort.h"
 #include "InsertSort.h"
 
+template <typename T>
+void copyArrayAndTestSort(string sortName, void(*sort)(T[], int), T src[], int n) {
+    int *dst = SortTestHelper::copyArray(src, n);
+    SortTestHelper::testSort(sortName, sort, dst, n);
+    delete dst;
+}
+
+template <typename T>
+void testSortWithRandomArray(string testName, T arr[], int n) {
+    cout << testName << " with " << n << " elements:" << endl;
+    copyArrayAndTestSort("Selection Sort", selectionSort, arr, n);
+    copyArrayAndTestSort("Insert Sort", insertSort, arr, n);
+    copyArrayAndTestSort("Insert Sort(opt)", insertSortOpt, arr, n);
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, sort!\n";
     
     //int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
     int n = 10000;
+    
+    // todo: zhe'liang'ha
     int *arr = SortTestHelper::generateRandomArray(n, 0, n);
-    
-    int *cpy = SortTestHelper::copyArray(arr, n);
-    int *dst = SortTestHelper::copyArray(arr, n);
-    
     //selectionSortAndPrint(arr, n);
-    SortTestHelper::testSort("Selection Sort", selectionSort, arr, n);
-    
-    SortTestHelper::testSort("Insert Sort", insertSort, cpy, n);
-    SortTestHelper::testSort("Insert Sort(opt)", insertSortOpt, dst, n);
-    
+    //SortTestHelper::testSort("Selection Sort", selectionSort, arr, n);
+    testSortWithRandomArray("Test with random array", arr, n);
     delete arr;
-    delete cpy;
-    delete dst;
+    
+    int *data = SortTestHelper::generateNearlyOrderArray(n, 100);
+    testSortWithRandomArray("Test with nearly ordered array", data, n);
+    delete data;
     
     float b[] = {5.4, 6.8, 3.2, 2.1, 1.0};
     selectionSortAndPrint(b, 5);
