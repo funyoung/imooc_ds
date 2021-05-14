@@ -14,6 +14,7 @@
 #include "SelectionSort.h"
 #include "InsertSort.h"
 #include "BubbleSort.h"
+#include "HeapSort.h"
 
 template <typename T>
 void copyArrayAndTestSort(string sortName, void(*sort)(T[], int), T src[], int n) {
@@ -23,7 +24,16 @@ void copyArrayAndTestSort(string sortName, void(*sort)(T[], int), T src[], int n
 }
 
 template <typename T>
-void testArraySort(string testName, T arr[], int n) {
+void testFastArraySort(string testName, T arr[], int n) {
+    cout << testName << " with " << n << " elements:" << endl;
+    //copyArrayAndTestSort("Heap Sort", selectionSort, arr, n);
+    //copyArrayAndTestSort("Heap Sort(heapify)", insertSort, arr, n);
+    copyArrayAndTestSort("Heap Sort(inline heapify)", heapifyInlineSort, arr, n);
+    // copyArrayAndTestSort("Merge Sort", bubleSort, arr, n);
+}
+
+template <typename T>
+void testSlowArraySort(string testName, T arr[], int n) {
     cout << testName << " with " << n << " elements:" << endl;
     copyArrayAndTestSort("Selection Sort", selectionSort, arr, n);
     copyArrayAndTestSort("Insert Sort", insertSort, arr, n);
@@ -31,23 +41,50 @@ void testArraySort(string testName, T arr[], int n) {
     copyArrayAndTestSort("Bubble Sort", bubleSort, arr, n);
 }
 
+/**
+ *O(n2)时间复杂度的排序算法测试
+ */
+void testSlowArraySort(int n) {
+    cout << "------ Testing O(n2) sorting algorithms with " << n << "items ------" << endl;
+    
+    // todo: 这两段代码很近似，如何优化？
+    int *arr = SortTestHelper::generateRandomArray(n, 0, n);
+    //selectionSortAndPrint(arr, n);
+    //SortTestHelper::testSort("Selection Sort", selectionSort, arr, n);
+    testSlowArraySort("Test with random array", arr, n);
+    delete arr;
+    
+    int *data = SortTestHelper::generateNearlyOrderArray(n, 100);
+    testSlowArraySort("Test with nearly ordered array", data, n);
+    delete data;
+    
+//    int *dd = SortTestHelper::generateRepeatAraay(...);
+//    testSlowArraySort("Test with large repeated elements array", dd, n);
+//    delete dd;
+}
+
+/**
+ *O(n*lg(n))时间复杂度的排序算法测试
+ */
+void testFastArraySort(int n) {
+    cout << "------ O(n*lg(n)) sorting algorithms with " << n << "items ------" << endl;
+    
+    int *arr = SortTestHelper::generateRandomArray(n, 0, n);
+    testFastArraySort("Test with random array", arr, n);
+    delete arr;
+    
+    int *data = SortTestHelper::generateNearlyOrderArray(n, 100);
+    testFastArraySort("Test with nearly ordered array", data, n);
+    delete data;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, sort!\n";
     
-    //int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    int n = 100000;
+    testSlowArraySort(10000);
     
-    // todo: zhe'liang'ha
-    int *arr = SortTestHelper::generateRandomArray(n, 0, n);
-    //selectionSortAndPrint(arr, n);
-    //SortTestHelper::testSort("Selection Sort", selectionSort, arr, n);
-    testArraySort("Test with random array", arr, n);
-    delete arr;
-    
-    int *data = SortTestHelper::generateNearlyOrderArray(n, 100);
-    testArraySort("Test with nearly ordered array", data, n);
-    delete data;
+    testFastArraySort(1000000);
     
     float b[] = {5.4, 6.8, 3.2, 2.1, 1.0};
     selectionSortAndPrint(b, 5);
