@@ -8,6 +8,7 @@
 #ifndef HeapSort_h
 #define HeapSort_h
 
+#include "MaxHeap.h"
 #include <cassert>
 
 using namespace std;
@@ -44,6 +45,18 @@ void heapifyInlineSort(T arr[], int n) {
     for (int count = n - 1; count > 0; count--) {
         swap(arr[0], arr[count]);
         __shiftDown(arr, 0, count);
+    }
+}
+
+template <typename T>
+void heapSort(T arr[], int n) {
+    MaxHeap h(n);
+    for (int i = 0; i < n; i++) {
+        h.push(arr[i]);
+    }
+    
+    for (int i = n - 1; i >= 0; i--) {
+        arr[i] = h.pop();
     }
 }
 

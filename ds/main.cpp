@@ -16,6 +16,8 @@
 #include "BubbleSort.h"
 #include "HeapSort.h"
 
+#include "MaxHeapTest.h"
+
 template <typename T>
 void copyArrayAndTestSort(string sortName, void(*sort)(T[], int), T src[], int n) {
     int *dst = SortTestHelper::copyArray(src, n);
@@ -26,8 +28,8 @@ void copyArrayAndTestSort(string sortName, void(*sort)(T[], int), T src[], int n
 template <typename T>
 void testFastArraySort(string testName, T arr[], int n) {
     cout << testName << " with " << n << " elements:" << endl;
-    //copyArrayAndTestSort("Heap Sort", selectionSort, arr, n);
-    //copyArrayAndTestSort("Heap Sort(heapify)", insertSort, arr, n);
+    copyArrayAndTestSort("Heap Sort", heapSort, arr, n);
+    //copyArrayAndTestSort("Heap Sort(heapify)", heapifySort, arr, n);
     copyArrayAndTestSort("Heap Sort(inline heapify)", heapifyInlineSort, arr, n);
     // copyArrayAndTestSort("Merge Sort", bubleSort, arr, n);
 }
@@ -78,22 +80,50 @@ void testFastArraySort(int n) {
     delete data;
 }
 
+
+int maxOperationCount(int coin[], int n) {
+    int num = 0;
+    for (int i = 0; i < n; i++) {
+        assert(num > 0);
+        
+        num <<= 1;
+        if (coin[i] != 0) {
+            num++;
+        }
+    }
+    return num;
+}
+
+void verify(int expected, int data[], int n) {
+    int num = maxOperationCount(data, 3);
+    cout << num << endl;
+    assert(num == expected);
+}
 int main(int argc, const char * argv[]) {
+//    int data[] = {0, 1, 1};
+//    verify(3, data, 3);
+//
+//    int zero[] = {0, 0, 0, 0, 0};
+//    verify(<#int expected#>, <#int *data#>, <#int n#>)
+    
+    
     // insert code here...
     std::cout << "Hello, sort!\n";
-    
+
     testSlowArraySort(10000);
-    
+
     testFastArraySort(1000000);
-    
+
     float b[] = {5.4, 6.8, 3.2, 2.1, 1.0};
     selectionSortAndPrint(b, 5);
-    
+
     string c[] = {"He", "ee", "oo", "ld", "good" };
     selectionSortAndPrint(c, 5);
-    
+
     Student s[] = {{"Tom", 10}, {"Ruby", 10}, {"Toby", 4}, {"Sam", 9}};
     selectionSortAndPrint(s, 4);
+    
+    //testMaxHeap(50);
     
     return 0;
 }
